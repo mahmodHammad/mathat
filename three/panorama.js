@@ -4,7 +4,8 @@ import { scene ,render,renderer} from "./setup.js";
 
 import { RGBELoader } from './modules/RGBELoader.js';
 
-const hdrbg = "./three/HDR/bush_restaurant_2k.hdr"
+// const hdrbg = "./three/HDR/bush_restaurant_2k.hdr"
+const hdrbg = "./three/HDR/test3.hdr"
 
 
 function setHDRLighting(){

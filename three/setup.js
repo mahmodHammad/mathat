@@ -2,18 +2,15 @@ import * as THREE from "./modules/three.module.js";
 import { OrbitControls } from "./modules/OrbitControls.js";
 import { displayCoards } from "./helper.js";
 import settings from "./variables/settings.js";
-
+import {saveDataURI , defaultFileName}from "./screenshot.js"
 // import Stats from "stats-js";
 import { addToScene } from "./sceneItems.js";
 
 THREE.Cache.enabled = true;
-
 // const stats = new Stats();
-
 // For 100% width&Height
 let width = window.innerWidth;
 let height = window.innerHeight;
-
 // ----------------------------------------------> render
 const renderer = new THREE.WebGLRenderer({
   alpha: true,
@@ -22,6 +19,8 @@ const renderer = new THREE.WebGLRenderer({
   logarithmicDepthBuffer: true,
 });
 renderer.setPixelRatio(settings.quality);
+renderer.outputEncoding=  THREE.sRGBEncoding
+// renderer.physicallyCorrectLights=true
 document.body.appendChild(renderer.domElement);
 
 function render() {
@@ -39,12 +38,12 @@ const camera = new THREE.PerspectiveCamera(
   0.001, // near plane
   80000 // far plane
 );
-camera.position.set(2, 1, 4);
+camera.position.set(130, 25, 50);
 
 // ----------------------------------------------> controls
 const controls = new OrbitControls(camera, renderer.domElement);
 function setupControls() {
-  controls.target = new THREE.Vector3(0, 0.1, 0);
+  controls.target = new THREE.Vector3(0, 30, 0);
   const {
     ctrlSpeed,
     maxZoom,
@@ -99,4 +98,22 @@ const sceneSetup = (root) => {
   addToScene();
 };
 
-export { sceneSetup, scene, controls, render, renderer, camera };
+
+function takeScreenshot(width, height) {
+  // set camera and renderer to desired screenshot dimension
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+  renderer.setSize(width, height);
+
+  renderer.render(scene, camera, null, false);
+
+  const DataURI = renderer.domElement.toDataURL("image/png");
+
+  // save
+  saveDataURI(defaultFileName(".png"), DataURI);
+
+  // reset to old dimensions by invoking the on window resize function
+   handleWindowResize();
+}
+
+export { takeScreenshot,sceneSetup, scene, controls, render, renderer, camera };

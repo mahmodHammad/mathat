@@ -7,7 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Test #7</h1>
+
+<div class="btn-container">
+    <button id="prev">previous</button>
+    <button id="sh">Screen shot</button>
+    <button id="next">next</button>
+</div>
 
 <!-- <canvas></canvas> -->
 
@@ -33,6 +38,17 @@
     }
     h1{
         position: fixed;
+    }
+    .btn-container{
+        border: 1px solid red;
+        padding: 0 00px;
+        position: fixed;
+        bottom: 20px;
+        width: 60%;
+        left: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 </style>
 </html>

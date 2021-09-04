@@ -1,6 +1,6 @@
 export default {
-  quality: 1,
-  enableAntialias:false,
+  quality: 2,
+  enableAntialias:true,
   ctrlSpeed: 2,
   enableDamping:true,
   dampingFactor:0.1,
@@ -15,5 +15,5 @@ export default {
   voiceSpeed: 1,
   voicePitch: 1,
   voiceLevel: 1,
-  developmentModel: true,
+  developmentModel: false,
 };
