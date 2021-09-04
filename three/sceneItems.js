@@ -22,11 +22,15 @@ const textures=[
 const prev = document.getElementById("prev")
 const next = document.getElementById("next")
 const sh = document.getElementById("sh")
+const auto = document.getElementById("auto")
+let autoSH =false
 
 next.addEventListener('click',()=>replaceTexture(1))
 prev.addEventListener('click',()=>replaceTexture(-1))
 sh.addEventListener('click',()=>takeScreenshot(1920*0.8,1080*0.8))
-// setTimeout(()=>takeScreenshot(1920,1080) , 1000)
+auto.addEventListener('click',()=>autoSH = true)
+
+// 
 var textureLoader = new THREE.TextureLoader();
 const m = new THREE.MeshStandardMaterial({
   // envMap:textureLoader.load(textures[1])
@@ -86,7 +90,9 @@ const replaceTexture =(direction)=>{
     // m.map =t
     mat.map = t
   })
-// takeScreenshot(1920,1080)
+  if(autoSH){
+    takeScreenshot(1920,1080)
+  }
   console.log("HEY",direction)
 }
 
