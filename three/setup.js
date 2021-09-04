@@ -20,6 +20,8 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setPixelRatio(settings.quality);
 renderer.outputEncoding=  THREE.sRGBEncoding
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 // renderer.physicallyCorrectLights=true
 document.body.appendChild(renderer.domElement);
 
@@ -29,7 +31,7 @@ function render() {
 
 // ----------------------------------------------> scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x333333);
+// scene.background = new THREE.Color(0x333333);
 
 // ----------------------------------------------> camera
 const camera = new THREE.PerspectiveCamera(
@@ -38,12 +40,12 @@ const camera = new THREE.PerspectiveCamera(
   0.001, // near plane
   80000 // far plane
 );
-camera.position.set(130, 25, 50);
+camera.position.set(130, -450, 50);
 
 // ----------------------------------------------> controls
 const controls = new OrbitControls(camera, renderer.domElement);
 function setupControls() {
-  controls.target = new THREE.Vector3(0, 30, 0);
+  controls.target = new THREE.Vector3(0, -470, 0);
   const {
     ctrlSpeed,
     maxZoom,

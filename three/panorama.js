@@ -8,12 +8,12 @@ import { RGBELoader } from './modules/RGBELoader.js';
 const hdrbg = "./three/HDR/test3.hdr"
 
 
-function setHDRLighting(){
+function setHDRLighting(mat){
     new RGBELoader()
     .setDataType( THREE.UnsignedByteType ) // alt: FloatType, HalfFloatType
     .load( hdrbg, function ( texture, textureData ) {
       var envMap = pmremGenerator.fromEquirectangular( texture ).texture;
-      // scene.background = envMap;
+      scene.background = envMap;
       scene.environment = envMap;
       texture.dispose();
       pmremGenerator.dispose();
