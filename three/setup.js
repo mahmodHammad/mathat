@@ -64,7 +64,31 @@ renderer.autoClear = false;
 document.body.appendChild(renderer.domElement);
 
 function render() {
-  renderer.render(scene, camera);
+  const ldistance = 100;
+  postprocessing.bokeh_uniforms[ 'focalDepth' ].value = ldistance;
+  effectController[ 'focalDepth' ] = ldistance;
+
+
+  // render scene into texture
+
+  renderer.setRenderTarget( postprocessing.rtTextureColor );
+  renderer.clear();
+  renderer.render( scene, camera );
+
+  // render depth into texture
+
+  scene.overrideMaterial = materialDepth;
+  renderer.setRenderTarget( postprocessing.rtTextureDepth );
+  renderer.clear();
+  renderer.render( scene, camera );
+  scene.overrideMaterial = null;
+
+  // render bokeh composite
+
+  renderer.setRenderTarget( null );
+  renderer.render( postprocessing.scene, postprocessing.camera );
+
+  // renderer.render(scene, camera);
 }
 
 // ----------------------------------------------> scene
@@ -135,6 +159,7 @@ const sceneSetup = (root) => {
   materialDepth.uniforms[ 'mFar' ].value = camera.far;
 
   const matChanger = function () {
+    initPostprocessing();
 
     for ( const e in effectController ) {
 
@@ -165,7 +190,6 @@ const sceneSetup = (root) => {
   }
   setupControls();
   addToScene();
-  initPostprocessing();
 
 };
 
