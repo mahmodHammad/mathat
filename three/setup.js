@@ -40,12 +40,12 @@ const camera = new THREE.PerspectiveCamera(
   0.001, // near plane
   80000 // far plane
 );
-camera.position.set(130, -450, 50);
+camera.position.set(120, 40, 60);
 
 // ----------------------------------------------> controls
 const controls = new OrbitControls(camera, renderer.domElement);
 function setupControls() {
-  controls.target = new THREE.Vector3(0, -470, 0);
+  controls.target = new THREE.Vector3(0, 32, 0);
   const {
     ctrlSpeed,
     maxZoom,

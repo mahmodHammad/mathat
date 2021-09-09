@@ -9,8 +9,8 @@ const equi = "three/equi.jpeg"
 let model= undefined
 
 const textures=[
-  "https://threejsfundamentals.org/threejs/resources/images/wall.jpg"
-   ,"https://threejsfundamentals.org/threejs/resources/images/flower-1.jpg"
+  ,txturl
+  ,"https://threejsfundamentals.org/threejs/resources/images/flower-1.jpg"
    ,"https://threejsfundamentals.org/threejs/resources/images/flower-2.jpg"
    ,"https://threejsfundamentals.org/threejs/resources/images/flower-3.jpg"
    ,"https://threejsfundamentals.org/threejs/resources/images/flower-4.jpg"
@@ -23,12 +23,29 @@ const prev = document.getElementById("prev")
 const next = document.getElementById("next")
 const sh = document.getElementById("sh")
 const auto = document.getElementById("auto")
+const stop = document.getElementById("stop")
+const imageName = document.getElementById("imageName")
+
 let autoSH =false
+let intervalID;
+const start =()=>{
+  intervalID = setInterval(()=>replaceTexture(1) , 1000)
+  stop.style.display = "block"
+  auto.style.display= "none"
+}
+
+const stopAuto = ()=>{
+  clearInterval(intervalID)
+  stop.style.display = "none"
+  auto.style.display= "block"
+}
 
 next.addEventListener('click',()=>replaceTexture(1))
 prev.addEventListener('click',()=>replaceTexture(-1))
 sh.addEventListener('click',()=>takeScreenshot(1920*0.8,1080*0.8))
-auto.addEventListener('click',()=>autoSH = true)
+auto.addEventListener('click',start)
+stop.addEventListener('click',stopAuto)
+
 
 // 
 var textureLoader = new THREE.TextureLoader();
@@ -54,10 +71,11 @@ let mat
 function addLights() {
   const amplight = new THREE.AmbientLight(0xffffff, 0.3);
   let lightBack = new THREE.SpotLight(0xffffff, 0.1,undefined,Math.PI/4,1,2);
-  let lightFront = new THREE.SpotLight(0xffffff, 0.6,undefined,Math.PI/4,1,2);
+  let lightFront = new THREE.SpotLight(0xffffff, 0.6,90000,Math.PI/4,1,2);
   let PointLight = new THREE.PointLight(0xffffff, 0.4);
   lightBack.position.set(10, 80, 70);
-  lightFront.position.set(10, 80, -70);
+  const lightPos = new THREE.Vector3(90, 80, -70).multiplyScalar(15)
+  lightFront.position.set(lightPos.x , lightPos.y ,lightPos.z);
   PointLight.position.set(10, 0, 20);
 
   lightFront.castShadow = true;
@@ -85,6 +103,7 @@ const replaceTexture =(direction)=>{
   }else{
     textureIndex--
   }
+  imageName.innerHTML= textures[textureIndex]
   targetTexture = textures[textureIndex]
   textureLoader.load(targetTexture,(t)=>{
     // m.map =t
@@ -115,14 +134,14 @@ const addToScene = () => {
   // const target = l2.children[0].children[0]
   // target.visable= false
       // target.material.color = new THREE.Color(0x00ff00)
-     
-      const g = new THREE.BoxBufferGeometry(10000,1000,10000)
+     const g = new THREE.SphereGeometry(10000,1000,1000)
+      // const g = new THREE.BoxBufferGeometry(10000,1000,10000)
       const env = new THREE.SphereBufferGeometry(1000,60,60)
       const envmesh = new THREE.Mesh(env,m)
       const mm = new THREE.MeshStandardMaterial()
       const mesh = new THREE.Mesh(g,mm)
       textureLoader.load("three/land.jpeg",t=>{
-        t.repeat = new THREE.Vector2(50,50)
+        t.repeat = new THREE.Vector2(150,150)
         t.wrapS = 10
         t.wrapT = 100
         console.log("HEYY:LOL",t)
@@ -130,8 +149,10 @@ const addToScene = () => {
 
       } )
       mesh.receiveShadow=true
-      mesh.position.y=-1000
-      glb.position.y=-500
+      mesh.position.y=-10000
+      mesh.rotation.x=1
+      // glb.position.y=-5
+      // glb.position.y=-500
 
       scene.add(mesh)
       // scene.add(envmesh)
@@ -163,7 +184,6 @@ const addToScene = () => {
         // node.material.color = new THREE.Color("#2c4391")
       }})
     scene.add(glb)
-    setInterval(()=>replaceTexture(1) , 1000)
 
   }
   )
