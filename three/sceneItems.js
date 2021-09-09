@@ -9,13 +9,13 @@ const equi = "three/equi.jpeg"
 let model= undefined
 
 const textures=[
-  ,txturl
-  ,"https://threejsfundamentals.org/threejs/resources/images/flower-1.jpg"
-   ,"https://threejsfundamentals.org/threejs/resources/images/flower-2.jpg"
-   ,"https://threejsfundamentals.org/threejs/resources/images/flower-3.jpg"
-   ,"https://threejsfundamentals.org/threejs/resources/images/flower-4.jpg"
-   ,"https://threejsfundamentals.org/threejs/resources/images/flower-5.jpg"
-   ,"https://threejsfundamentals.org/threejs/resources/images/flower-6.jpg"
+  ,["img1",txturl]
+  ,["Flower1","https://threejsfundamentals.org/threejs/resources/images/flower-1.jpg"]
+   ,["Flower2","https://threejsfundamentals.org/threejs/resources/images/flower-2.jpg"]
+   ,["Flower3","https://threejsfundamentals.org/threejs/resources/images/flower-3.jpg"]
+   ,["Flower4","https://threejsfundamentals.org/threejs/resources/images/flower-4.jpg"]
+   ,["Flower5","https://threejsfundamentals.org/threejs/resources/images/flower-5.jpg"]
+   ,["Flower6","https://threejsfundamentals.org/threejs/resources/images/flower-6.jpg"]
  ]
  let textureIndex = 0
 
@@ -103,8 +103,8 @@ const replaceTexture =(direction)=>{
   }else{
     textureIndex--
   }
-  imageName.innerHTML= textures[textureIndex]
-  targetTexture = textures[textureIndex]
+  imageName.innerHTML= textures[textureIndex][0]
+  targetTexture = textures[textureIndex][1]
   textureLoader.load(targetTexture,(t)=>{
     // m.map =t
     mat.map = t
